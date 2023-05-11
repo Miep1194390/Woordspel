@@ -5,8 +5,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,5 +22,14 @@ Auth::routes();
 
 Route::get('/', function () {
     return view('woordspel');
-})->middleware('auth');
+});
+
+
+
+
+
+
+
+
+
 
