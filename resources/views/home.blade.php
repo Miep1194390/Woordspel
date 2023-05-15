@@ -30,8 +30,9 @@
                                 </form>
                                 <form action="{{ route('friend-request.reject', $user) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger">Weiger</button>
+                                    <button type="submit" class="btn btn-danger">Verwijder</button>
                                 </form>
+                                
                             @elseif ($user->hasReceivedFriendRequest())
                                 Vriendenverzoek ontvangen
                             @else
@@ -46,7 +47,7 @@
             </tbody>
         </table>
 
-        <h2>Friends:</h2>
+        <h2>Vrienden:</h2>
         <table class="table table-bordered">
             <thead>
                 <tr>
