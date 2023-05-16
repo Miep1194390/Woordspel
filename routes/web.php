@@ -27,4 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Create Lobby
     Route::post('/create-lobby', [LobbyController::class, 'create'])->name('lobby.create');
+
+    // Leave lobby
+    Route::post('/lobby/leave', [LobbyController::class, 'leave'])->name('lobby.leave')->middleware('auth');
 });

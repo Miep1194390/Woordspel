@@ -11,9 +11,11 @@ class LobbyController extends Controller
     public function index()
     {
         $lobbies = Lobby::all();
-
-        return view('lobby.index', compact('lobbies'));
+        $userLobbies = Auth::user()->lobbies;
+    
+        return view('lobby.index', compact('lobbies', 'userLobbies'));
     }
+    
 
     public function join(Request $request)
     {
@@ -47,4 +49,22 @@ class LobbyController extends Controller
 
         return redirect()->route('lobby.index')->with('success', 'Lobby created successfully.');
     }
+
+    public function leave(Request $request)
+    {
+        $lobbyId = $request->input('lobby_id');
+        $lobby = Lobby::findOrFail($lobbyId);
+        
+        // Verwijder de huidige gebruiker uit de lobby
+        $lobby->users()->detach(auth()->user());
+    
+        // Controleren of er nog spelers in de lobby zijn
+        if ($lobby->users()->count() === 0) {
+            // Verwijder de lobby als er geen spelers meer zijn
+            $lobby->delete();
+        }
+    
+        return redirect()->route('lobby.index')->with('success', 'Je hebt de lobby verlaten.');
+    }
+    
 }
