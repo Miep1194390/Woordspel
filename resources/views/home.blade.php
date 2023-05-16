@@ -17,7 +17,7 @@
                         <td>{{ $user->name }}</td>
                         <td>
                             @if ($user->hasReceivedFriendRequest())
-                                Vriendenverzoek verzonden
+                                Vriendenverzoek verzonden    
                             @elseif ($user->hasSentFriendRequest())
                                 Vriendenverzoek ontvangen
                             @endif

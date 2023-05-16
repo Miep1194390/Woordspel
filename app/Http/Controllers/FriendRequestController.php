@@ -52,7 +52,7 @@ class FriendRequestController extends Controller
     return redirect()->route('home')->with('success', 'Friend request accepted.');
 }
 
-    
+
 public function rejectFriendRequest(User $sender)
 {
     $receiver = Auth::user();

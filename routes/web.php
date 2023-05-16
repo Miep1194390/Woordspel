@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LobbyController;
 
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('web');
@@ -23,5 +24,14 @@ Route::post('/friend-request/{sender}/accept', [FriendRequestController::class, 
 
 // Reject friend request
 Route::post('/friend-request/{sender}/reject', [FriendRequestController::class, 'rejectFriendRequest'])->name('friend-request.reject');
+
+//  Index&Join Lobby
+Route::get('/', [LobbyController::class, 'index'])->name('lobby.index');
+Route::post('/join', [LobbyController::class, 'join'])->name('lobby.join');
+
+// Create Lobby
+Route::post('/create-lobby', [LobbyController::class, 'create'])->name('lobby.create');
+
+
 
 

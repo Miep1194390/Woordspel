@@ -6,6 +6,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\FriendRequest;
+use App\Models\Lobby;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -77,4 +79,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
     }
+
+    public function lobbies()
+    {
+        return $this->belongsToMany(Lobby::class);
+    }
+    
 }
