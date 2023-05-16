@@ -1,7 +1,7 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container">
+        <div class="img-bg">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -47,18 +47,19 @@
 
                         <hr>
 
-                        <h4>Create a Lobby</h4>
+                        <h4>Lobby aanmaken</h4>
                         <form action="{{ route('lobby.create') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="lobby_name">Lobby Name</label>
+                                <label for="lobby_name">Lobby Naam</label>
                                 <input type="text" name="name" id="lobby_name" class="form-control">
                             </div>
-                            <button type="submit" class="btn btn-primary">Create Lobby</button>
+                            <button type="submit" class="btn btn-primary">Aanmaken</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection

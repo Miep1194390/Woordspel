@@ -7,31 +7,24 @@ use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LobbyController;
 
-
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('web');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Auth::routes();
 
-Route::get('/', function () {
-    return view('woordspel');
+Route::group(['middleware' => 'auth'], function () {
+    // Send friend request
+    Route::post('/friend-request/{receiver}', [FriendRequestController::class, 'sendFriendRequest'])->name('friend-request.send');
+
+    // Accept friend request
+    Route::post('/friend-request/{sender}/accept', [FriendRequestController::class, 'acceptFriendRequest'])->name('friend-request.accept');
+
+    // Reject friend request
+    Route::post('/friend-request/{sender}/reject', [FriendRequestController::class, 'rejectFriendRequest'])->name('friend-request.reject');
+
+    // Index & Join Lobby
+    Route::get('/', [LobbyController::class, 'index'])->name('lobby.index');
+    Route::post('/join', [LobbyController::class, 'join'])->name('lobby.join');
+
+    // Create Lobby
+    Route::post('/create-lobby', [LobbyController::class, 'create'])->name('lobby.create');
 });
-
-// Send friend request
-Route::post('/friend-request/{receiver}', [FriendRequestController::class, 'sendFriendRequest'])->name('friend-request.send');
-
-// Accept friend request
-Route::post('/friend-request/{sender}/accept', [FriendRequestController::class, 'acceptFriendRequest'])->name('friend-request.accept');
-
-// Reject friend request
-Route::post('/friend-request/{sender}/reject', [FriendRequestController::class, 'rejectFriendRequest'])->name('friend-request.reject');
-
-//  Index&Join Lobby
-Route::get('/', [LobbyController::class, 'index'])->name('lobby.index');
-Route::post('/join', [LobbyController::class, 'join'])->name('lobby.join');
-
-// Create Lobby
-Route::post('/create-lobby', [LobbyController::class, 'create'])->name('lobby.create');
-
-
-
-

@@ -6,3 +6,14 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    text-decoration: none;
+    font-weight: bold;
+    list-style-type: none;
+ }
+ 

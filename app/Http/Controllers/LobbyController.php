@@ -21,13 +21,13 @@ class LobbyController extends Controller
         $user = Auth::user();
 
         if ($user->lobbies()->where('id', $lobbyId)->exists()) {
-            return redirect()->route('lobby.index')->with('error', 'You have already joined this lobby.');
+            return redirect()->route('lobby.index')->with('error', 'Je bent al deelgenomen aan deze lobby.');
         }
 
         // Logic to join the lobby
         $user->lobbies()->attach($lobbyId);
 
-        return redirect()->route('lobby.index')->with('success', 'Joined lobby successfully.');
+        return redirect()->route('lobby.index')->with('success', 'Lobby gejoined.');
     }
 
     public function create(Request $request)

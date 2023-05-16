@@ -4,8 +4,7 @@ Het hoofddoel van de casus is het kunnen ontwikkelen van een dynamische website 
 
 # Om het project goed te starten beide in terminal typen.
 
-php artisan serve
-npm run dev
+php artisan serve & npm run dev
 
 # Eisen van de casus
 
