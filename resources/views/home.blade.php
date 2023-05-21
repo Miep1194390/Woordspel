@@ -24,15 +24,18 @@
                         </td>
                         <td>
                             @if ($user->hasSentFriendRequest())
-                                <form action="{{ route('friend-request.accept', $user) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success">Accepteer</button>
-                                </form>
-                                <form action="{{ route('friend-request.reject', $user) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger">Verwijder</button>
-                                </form>
-                                
+                                @if ($user->hasAcceptedFriendRequest())  <!-- Add this line -->
+                                    Vrienden geworden  <!-- Display a message when the friend request has been accepted -->
+                                @else
+                                    <form action="{{ route('friend-request.accept', $user) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success">Accepteer</button>
+                                    </form>
+                                    <form action="{{ route('friend-request.reject', $user) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">Verwijder</button>
+                                    </form>
+                                @endif  <!-- Add this line -->
                             @elseif ($user->hasReceivedFriendRequest())
                                 Vriendenverzoek ontvangen
                             @else

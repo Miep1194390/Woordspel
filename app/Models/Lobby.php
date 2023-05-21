@@ -18,5 +18,13 @@ class Lobby extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+    
+    
+    
     
 }

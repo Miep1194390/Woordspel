@@ -84,5 +84,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Lobby::class);
     }
+
+    public function hasAcceptedFriendRequest()
+    {
+        return $this->friends()->wherePivot('status', 'accepted')->exists();
+    }
     
 }

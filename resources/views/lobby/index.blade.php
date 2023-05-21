@@ -46,6 +46,14 @@
                                                         <input type="hidden" name="lobby_id" value="{{ $lobby->id }}">
                                                         <button type="submit" class="btn btn-danger">Verlaat Lobby</button>
                                                     </form>
+                                                    @if ($lobby->users->count() === 2)
+                                                    <form class="d-inline" method="POST" action="{{ route('lobby.start') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="lobby_id" value="{{ $lobby->id }}">
+                                                        <button type="submit" class="btn btn-success">Game</button>
+                                                     </form>
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LobbyController;
+use App\Http\Controllers\GameController;
+
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('web');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -30,4 +32,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Leave lobby
     Route::post('/lobby/leave', [LobbyController::class, 'leave'])->name('lobby.leave')->middleware('auth');
+
+    // Start lobby
+    Route::post('/lobby/start', [LobbyController::class, 'start'])->name('lobby.start');
+
+    // Game active
+    Route::get('/game/play/{lobbyId}', [GameController::class, 'play'])->name('game.play');
+
+
 });
