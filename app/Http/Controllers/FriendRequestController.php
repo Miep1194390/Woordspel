@@ -58,21 +58,36 @@ public function rejectFriendRequest(User $sender)
     $receiver = Auth::user();
 
     // Find the friend request
-    $friendRequest = FriendRequest::where('sender_id', $sender->id)
-        ->where('receiver_id', $receiver->id)
+    $friendRequest = FriendRequest::where(function ($query) use ($sender, $receiver) {
+            $query->where('sender_id', $sender->id)
+                ->where('receiver_id', $receiver->id);
+        })
+        ->orWhere(function ($query) use ($sender, $receiver) {
+            $query->where('sender_id', $receiver->id)
+                ->where('receiver_id', $sender->id);
+        })
         ->first();
 
     if (!$friendRequest) {
         return redirect()->back()->with('error', 'Friend request not found.');
     }
 
-    // Update the friend request status to rejected
-    $friendRequest->update(['status' => 'rejected']);
+    // Remove the friendship relationship for both users
+    $receiver->friends()->detach($sender->id);
+    $sender->friends()->detach($receiver->id);
 
     // Remove the friend request from the collection
     $receiver->receivedFriendRequests()->where('sender_id', $sender->id)->delete();
 
-    return redirect()->back()->with('success', 'Friend request rejected.');
+    // Remove the reciprocal friend request
+    $sender->receivedFriendRequests()->where('sender_id', $receiver->id)->delete();
+
+    return redirect()->back()->with('success', 'Friendship removed.');
 }
+
+
+
+
+
     
 }

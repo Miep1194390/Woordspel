@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droow.nl | Dashboard</title>
+</head>
+<body>
+
 @extends('layouts.app')
 
 @section('content')
@@ -24,20 +34,22 @@
                         </td>
                         <td>
                             @if ($user->hasSentFriendRequest())
-                                @if ($user->hasAcceptedFriendRequest())  <!-- Add this line -->
-                                    Vrienden geworden  <!-- Display a message when the friend request has been accepted -->
+                                @if ($user->hasAcceptedFriendRequest())
+                                    Vrienden geworden
                                 @else
-                                    <form action="{{ route('friend-request.accept', $user) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-success">Accepteer</button>
-                                    </form>
+                                    @if (!$user->acceptedFriends->contains(Auth::user()))
+                                        <form action="{{ route('friend-request.accept', $user) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success">Accepteer</button>
+                                        </form>
+                                    @endif
                                     <form action="{{ route('friend-request.reject', $user) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="btn btn-danger">Verwijder</button>
                                     </form>
-                                @endif  <!-- Add this line -->
+                                @endif
                             @elseif ($user->hasReceivedFriendRequest())
-                                Vriendenverzoek ontvangen
+                                
                             @else
                                 <form action="{{ route('friend-request.send', $user) }}" method="POST">
                                     @csrf
@@ -67,3 +79,8 @@
         </table>
     </div>
 @endsection
+    
+</body>
+</html>
+
+

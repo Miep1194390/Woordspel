@@ -63,22 +63,25 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(FriendRequest::class, 'sender_id');
     }
 
+
     public function acceptedFriends()
     {
-        return $this->belongsToMany(User::class, 'friend_requests', 'sender_id', 'receiver_id')
+        return $this->belongsToMany(User::class, 'friend_requests', 'receiver_id', 'sender_id')
             ->wherePivot('status', 'accepted')
             ->withTimestamps();
     }
+    
 
     public function isFriend(User $user)
     {
-        return $this->friends()->where('friend_id', $user->id)->exists();
+        return $this->friends->contains($user);
     }
 
     public function friends()
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
     }
+    
 
     public function lobbies()
     {
@@ -89,5 +92,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->friends()->wherePivot('status', 'accepted')->exists();
     }
+
+    public function isFriendWith(User $user)
+    {
+        return $this->friends()->where('users.id', $user->id)->exists();
+    }    
     
 }
