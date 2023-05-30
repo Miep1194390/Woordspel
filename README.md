@@ -10,7 +10,7 @@ php artisan serve & npm run dev
 
 Onderstaand vind je de eisen die verwerkt moeten worden bij het uitwerken van het Laravel project.
 
-Landing Page De bezoeker van de website komt bij het laden van de website uit op de landing page. Het is de bedoeling dat de landing page de bezoeker een duidelijk beeld geeft wat er gespeeld kan worden op de website. Op de landingspage is ook een overzicht te vinden met een leaderboard. Hier staat wie deze dag, deze week en aller tijde het meest gewonnen potjes heeft.
+[Meebezig] Landing Page De bezoeker van de website komt bij het laden van de website uit op de landing page. Het is de bedoeling dat de landing page de bezoeker een duidelijk beeld geeft wat er gespeeld kan worden op de website. Op de landingspage is ook een overzicht te vinden met een leaderboard. Hier staat wie deze dag, deze week en aller tijde het meest gewonnen potjes heeft.
 
 [Voldaan] Gebruikers Op de website moet het mogelijk zijn om als gebruiker jezelf te kunnen registreren en te kunnen inloggen.
 

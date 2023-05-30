@@ -8,7 +8,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LobbyController;
 use App\Http\Controllers\GameController;
 
-
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('web');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Auth::routes();
@@ -42,12 +41,9 @@ Route::group(['middleware' => 'auth'], function () {
     // Game save word
     Route::post('/games/save-word/{lobbyId}', [GameController::class, 'saveWord'])->name('game.saveWord');
 
-    
-    
-
-
+    // Game guess word
+    Route::post('/games/guess-word/{lobbyId}', [GameController::class, 'guessWord'])->name('game.guessWord');
 
     
-
 
 });

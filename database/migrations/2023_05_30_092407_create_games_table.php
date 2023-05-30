@@ -11,10 +11,12 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_id');
+            $table->unsignedBigInteger('player_id')->nullable();
             $table->string('word');
             $table->timestamps();
             
             $table->foreign('game_id')->references('id')->on('lobbies')->onDelete('cascade');
+            $table->foreign('player_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
