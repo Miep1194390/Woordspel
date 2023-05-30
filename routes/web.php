@@ -39,5 +39,15 @@ Route::group(['middleware' => 'auth'], function () {
     // Game active
     Route::get('/game/play/{lobbyId}', [GameController::class, 'play'])->name('game.play');
 
+    // Game save word
+    Route::post('/games/save-word/{lobbyId}', [GameController::class, 'saveWord'])->name('game.saveWord');
+
+    
+    
+
+
+
+    
+
 
 });

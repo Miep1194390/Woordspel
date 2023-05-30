@@ -11,8 +11,7 @@ class CreateLobbyUserTable extends Migration
         Schema::create('lobby_user', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('lobby_id');
-            $table->timestamps();
-
+            
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('lobby_id')->references('id')->on('lobbies')->onDelete('cascade');
         });
