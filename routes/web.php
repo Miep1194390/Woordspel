@@ -10,7 +10,11 @@ use App\Http\Controllers\GameController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('web');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
+Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
+Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 Auth::routes();
+
 
 Route::group(['middleware' => 'auth'], function () {
     // Vriendenschapsverzoek verzenden
