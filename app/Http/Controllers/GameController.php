@@ -3,25 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Game; // Replace 'Game' with your actual model
+use App\Models\Game;
 
 class GameController extends Controller
 {
     public function play($lobbyId)
     {
-        // Retrieve the two words for the specified game
+        // De 2 woorden ontvangen voor die specifeke game die de 2 spelers hadden ingevoerd
         $words = Game::where('game_id', $lobbyId)->get(['word'])->pluck('word')->toArray();
     
-        // Shuffle the characters within both words
+        // Beide woorden shufflen
         foreach ($words as &$word) {
-            if (strlen($word) >= 6) {
                 $wordCharacters = str_split($word);
                 shuffle($wordCharacters);
                 $word = implode('', $wordCharacters);
             }
-        }
     
-        // Pass the shuffled words to the view
+        // De 2 geshuffelde woorden sturen naar de view
         return view('game.play', ['lobbyId' => $lobbyId, 'words' => $words]);
     }
     
@@ -29,29 +27,29 @@ class GameController extends Controller
     {
         $guessedWord = $request->input('guessed_word');
     
-        // Retrieve the opponent's word from the database
+        // Woord ontvangen van de tegenstander via me db
         $opponentWord = Game::where('game_id', $lobbyId)
-            ->where('player_id', '!=', auth()->user()->id) // Exclude the player's own word
+        // Hij checkt via != (id van huidige speler) dus dan weet je dat het de tegenstander zijn woord is
+            ->where('player_id', '!=', auth()->user()->id)
             ->value('word');
     
         if (!$opponentWord) {
-            return redirect()->back()->with('error', 'The opponent word is not available.');
+            return redirect()->back()->with('error', 'Het woord van de tegenderstander is nog niet beschikbaar.');
         }
     
+        // Checkt of het woord van de tegenstander hetzelfde is als de input die de speler geeft.
         if ($guessedWord === $opponentWord) {
-            // Word matches the opponent's word, the player wins
-            return redirect()->back()->with('success', 'Congratulations! You won the game.');
+            return redirect()->back()->with('success', 'Gefeliciteerd je hebt gewonnen!');
         }
-    
-        // Word doesn't match
-        return redirect()->back()->with('error', 'Sorry, the word does not match.');
+        // Als het woord niet overeen komt
+        return redirect()->back()->with('error', 'Helaas, het woord komt niet overeen');
     }
     
     public function saveWord(Request $request, $lobbyId)
     {
         $playerId = auth()->user()->id;
         
-        // Check if the player has already submitted a word
+        // Checkt of de player al een woord heeft ingevuld zodat er niet meerdere woorden van 1 speler komtt.
         $existingWord = Game::where('game_id', $lobbyId)
             ->where('player_id', $playerId)
             ->exists();
@@ -62,7 +60,7 @@ class GameController extends Controller
         
         $word = $request->input('player_word');
         
-        // Save the word to the database
+        // Sla de worden op naar me db
         $game = new Game();
         $game->game_id = $lobbyId;
         $game->word = $word;

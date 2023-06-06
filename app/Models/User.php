@@ -45,6 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasReceivedFriendRequest()
     {
+        
         return $this->receivedFriendRequests()->exists();
     }
 

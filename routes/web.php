@@ -13,35 +13,35 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    // Send friend request
+    // Vriendenschapsverzoek verzenden
     Route::post('/friend-request/{receiver}', [FriendRequestController::class, 'sendFriendRequest'])->name('friend-request.send');
 
-    // Accept friend request
+    // Vriendenschapsverzoek accepteren
     Route::post('/friend-request/{sender}/accept', [FriendRequestController::class, 'acceptFriendRequest'])->name('friend-request.accept');
 
-    // Reject friend request
+    // Vriendenschapsverzoek Weigeren/Verwijderen
     Route::post('/friend-request/{sender}/reject', [FriendRequestController::class, 'rejectFriendRequest'])->name('friend-request.reject');
 
     // Index & Join Lobby
     Route::get('/', [LobbyController::class, 'index'])->name('lobby.index');
     Route::post('/join', [LobbyController::class, 'join'])->name('lobby.join');
 
-    // Create Lobby
+    // Lobby aanmaken
     Route::post('/create-lobby', [LobbyController::class, 'create'])->name('lobby.create');
 
-    // Leave lobby
+    // Lobby verlaten
     Route::post('/lobby/leave', [LobbyController::class, 'leave'])->name('lobby.leave')->middleware('auth');
 
-    // Start lobby
+    // Game starten
     Route::post('/lobby/start', [LobbyController::class, 'start'])->name('lobby.start');
 
-    // Game active
+    // Game actief
     Route::get('/game/play/{lobbyId}', [GameController::class, 'play'])->name('game.play');
 
-    // Game save word
+    // Game woord opslaan
     Route::post('/games/save-word/{lobbyId}', [GameController::class, 'saveWord'])->name('game.saveWord');
 
-    // Game guess word
+    // Game woord gokken
     Route::post('/games/guess-word/{lobbyId}', [GameController::class, 'guessWord'])->name('game.guessWord');
 
     
