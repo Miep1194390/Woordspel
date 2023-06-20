@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Models; // Add or update the correct namespace
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 
-use Illuminate\Http\Request; // Add or update the correct namespace for the Request class
-
-
-class Player
+class Player extends Model
 {
+    use HasFactory;
+    
 }

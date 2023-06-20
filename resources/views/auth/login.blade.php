@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Droow.nl | Login</title>
-</head>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="https://images.pexels.com/photos/262333/pexels-photo-262333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+        <title>Droow.nl | Login</title>
+    </head>
+
 <body>
 @extends('layouts.app')
 
@@ -54,7 +57,7 @@
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                     <label class="form-check-label" for="remember">
-                                        {{ __('Onthoud mij') }}
+                                        {{ __('Onthoud Mij') }}
                                     </label>
                                 </div>
                             </div>
@@ -68,7 +71,7 @@
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Wachtwoord vergeten?') }}
+                                        {{ __('Wachtwoord Vergeten?') }}
                                     </a>
                                 @endif
                             </div>

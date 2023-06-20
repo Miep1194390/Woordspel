@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Droow.nl | Dashboard</title>
-</head>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="https://images.pexels.com/photos/262333/pexels-photo-262333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+        <title>Droow.nl | Dashboard</title>
+    </head>
 <body>
 
 @extends('layouts.app')
@@ -27,9 +29,9 @@
                         <td>{{ $user->name }}</td>
                         <td>
                             @if ($user->hasReceivedFriendRequest())
-                                Vriendenverzoek verzonden    
+                            Vriendenschapsverzoek verzonden    
                             @elseif ($user->hasSentFriendRequest())
-                                Vriendenverzoek ontvangen
+                            Vriendenschapsverzoek ontvangen
                             @endif
                         </td>
                         <td>
@@ -53,7 +55,7 @@
                             @else
                                 <form action="{{ route('friend-request.send', $user) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-primary">Vriendenverzoek verzenden</button>
+                                    <button type="submit" class="btn btn-primary">Vriendenschapsverzoek verzenden</button>
                                 </form>
                             @endif
                         </td>

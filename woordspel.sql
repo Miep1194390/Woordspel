@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 23 mei 2023 om 15:19
+-- Gegenereerd op: 06 jun 2023 om 19:10
 -- Serverversie: 10.4.27-MariaDB
 -- PHP-versie: 8.2.0
 
@@ -44,12 +44,11 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `friends` (
-  `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `friend_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL
+  `status` varchar(255) NOT NULL DEFAULT 'accepted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -67,13 +66,20 @@ CREATE TABLE `friend_requests` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Gegevens worden geëxporteerd voor tabel `friend_requests`
+-- Tabelstructuur voor tabel `games`
 --
 
-INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `status`, `created_at`, `updated_at`) VALUES
-(54, 1, 2, 'accepted', '2023-05-23 11:16:36', '2023-05-23 11:16:38'),
-(55, 2, 1, 'accepted', '2023-05-23 11:16:38', '2023-05-23 11:16:38');
+CREATE TABLE `games` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `game_id` bigint(20) UNSIGNED NOT NULL,
+  `player_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `word` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -136,7 +142,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (38, '2023_05_21_150714_add_status_to_lobbies', 8),
 (39, '2023_05_21_151224_add_status_to_lobbies', 9),
 (40, '2023_05_21_210438_create_friends_table', 10),
-(41, '2023_05_21_210537_add_status_to_friends_table', 11);
+(41, '2023_05_21_210537_add_status_to_friends_table', 11),
+(63, '2023_05_30_084128_create_friends_table', 12),
+(64, '2023_05_30_084234_add_status_to_friends_table', 12),
+(65, '2023_05_30_091026_create_words_table', 12),
+(67, '2023_05_30_092407_create_games_table', 13);
 
 -- --------------------------------------------------------
 
@@ -229,6 +239,19 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 (2, 'pik123', 'pik123@gmail.com', NULL, '$2y$10$/j9f4n88Pz4vuNvRaR/5DezdXedjEOiwAANv35LvpqsDm/cMH8BWG', NULL, '2023-05-15 18:39:49', '2023-05-15 18:39:49'),
 (3, 'sappie', 'sappie@gmail.com', NULL, '$2y$10$pVaMwv7vCTibKZJA.0HmeeftaJzhNiXMnjmb8/leKoVDf0FMyO9M.', NULL, '2023-05-15 18:47:25', '2023-05-15 18:47:25');
 
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `words`
+--
+
+CREATE TABLE `words` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `word` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indexen voor geëxporteerde tabellen
 --
@@ -244,8 +267,7 @@ ALTER TABLE `failed_jobs`
 -- Indexen voor tabel `friends`
 --
 ALTER TABLE `friends`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `friends_user_id_friend_id_unique` (`user_id`,`friend_id`),
+  ADD PRIMARY KEY (`user_id`,`friend_id`),
   ADD KEY `friends_friend_id_foreign` (`friend_id`);
 
 --
@@ -255,6 +277,14 @@ ALTER TABLE `friend_requests`
   ADD PRIMARY KEY (`id`),
   ADD KEY `friend_requests_sender_id_foreign` (`sender_id`),
   ADD KEY `friend_requests_receiver_id_foreign` (`receiver_id`);
+
+--
+-- Indexen voor tabel `games`
+--
+ALTER TABLE `games`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `games_game_id_foreign` (`game_id`),
+  ADD KEY `games_player_id_foreign` (`player_id`);
 
 --
 -- Indexen voor tabel `lobbies`
@@ -311,6 +341,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexen voor tabel `words`
+--
+ALTER TABLE `words`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT voor geëxporteerde tabellen
 --
 
@@ -321,28 +357,28 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT voor een tabel `friends`
---
-ALTER TABLE `friends`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT voor een tabel `friend_requests`
 --
 ALTER TABLE `friend_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+
+--
+-- AUTO_INCREMENT voor een tabel `games`
+--
+ALTER TABLE `games`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT voor een tabel `lobbies`
 --
 ALTER TABLE `lobbies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT voor een tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT voor een tabel `personal_access_tokens`
@@ -355,6 +391,12 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT voor een tabel `words`
+--
+ALTER TABLE `words`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
@@ -373,6 +415,13 @@ ALTER TABLE `friends`
 ALTER TABLE `friend_requests`
   ADD CONSTRAINT `friend_requests_receiver_id_foreign` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `friend_requests_sender_id_foreign` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Beperkingen voor tabel `games`
+--
+ALTER TABLE `games`
+  ADD CONSTRAINT `games_game_id_foreign` FOREIGN KEY (`game_id`) REFERENCES `lobbies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `games_player_id_foreign` FOREIGN KEY (`player_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `lobby_user`

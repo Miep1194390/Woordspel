@@ -9,55 +9,57 @@ use Illuminate\Support\Facades\Auth;
 
 class FriendRequestController extends Controller
 {
+    // Vrienden verzoek sturen functie
     public function sendFriendRequest(User $receiver)
     {
         $sender = Auth::user();
 
-        // Check if the friend request already exists
+        // Checken of de vrienden verzoek al gestuurd is
         if (FriendRequest::where('sender_id', $sender->id)
             ->where('receiver_id', $receiver->id)
             ->exists()) {
-            return redirect()->back()->with('error', 'Friend request already sent.');
+            return redirect()->back()->with('error', 'Vriendschapsverzoek al verstuurd.');
         }
 
-        // Create the friend request
+        // Vriendschapsverzoek aanmaken
         FriendRequest::create([
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
             'status' => 'pending',
         ]);
 
-        return redirect()->back()->with('success', 'Friend request sent successfully.');
+        return redirect()->back()->with('success', 'Vriendschapsverzoek verzonden.');
     }
-
+    // Vriendschapsverzoek accepteren functie
     public function acceptFriendRequest(User $sender)
 {
     $receiver = Auth::user();
 
-    // Find the friend request
+    // Vriendschapsverzoek vinden via where
     $friendRequest = FriendRequest::where('sender_id', $sender->id)
         ->where('receiver_id', $receiver->id)
         ->first();
 
-    // Update the friend request status to accepted
+    // Vriendschapsverzoek status in de database updaten naar geaccepteerd "accepted"
     $friendRequest->update(['status' => 'accepted']);
 
-    // Create a reciprocal friend request
+    // Stuur een vriendschapsverzoek naar de verzender
     FriendRequest::create([
         'sender_id' => $receiver->id,
         'receiver_id' => $sender->id,
         'status' => 'accepted',
     ]);
 
-    return redirect()->route('home')->with('success', 'Friend request accepted.');
+    return redirect()->route('home')->with('success', 'Vriendschapsverzoek geaccepteerd.');
 }
 
 
+// Vriendschapsverzoek weigeren/verwijderen functie
 public function rejectFriendRequest(User $sender)
 {
     $receiver = Auth::user();
 
-    // Find the friend request
+    // Vriendschapsverzoek vinden
     $friendRequest = FriendRequest::where(function ($query) use ($sender, $receiver) {
             $query->where('sender_id', $sender->id)
                 ->where('receiver_id', $receiver->id);
@@ -69,20 +71,20 @@ public function rejectFriendRequest(User $sender)
         ->first();
 
     if (!$friendRequest) {
-        return redirect()->back()->with('error', 'Friend request not found.');
+        return redirect()->back()->with('error', 'Vriendschapsverzoek niet gevonden.');
     }
 
-    // Remove the friendship relationship for both users
+    // Vriendschap verwijderen tussen beide users
     $receiver->friends()->detach($sender->id);
     $sender->friends()->detach($receiver->id);
 
-    // Remove the friend request from the collection
+    // Vriendschapsverzoek verwijderen uit collectie
     $receiver->receivedFriendRequests()->where('sender_id', $sender->id)->delete();
 
-    // Remove the reciprocal friend request
+    // Vriendschapsverzoek verwijderen uit collectie van de verzender
     $sender->receivedFriendRequests()->where('sender_id', $receiver->id)->delete();
 
-    return redirect()->back()->with('success', 'Friendship removed.');
+    return redirect()->back()->with('success', 'Vriendschap verwijderd.');
 }
 
 
